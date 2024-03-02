@@ -1,0 +1,25 @@
+---
+# set up cgroup memory param fo raspberry pi
+- name: Set cgroup memory param
+  lineinfile:
+    path: /boot/cmdline.txt
+    line: "cgroup_memory=1 cgroup_enable=memory"
+  register: cmdline
+
+- name: Download K3s install script
+  get_url:
+    url: https://get.k3s.io/
+    dest: /tmp/k3s-install.sh
+    mode: "0700"
+
+- name: Install k3s
+  shell: >-
+    /tmp/k3s-install.sh
+  environment:
+    INSTALL_K3S_SKIP_START: "true"
+    INSTALL_K3S_VERSION: "{{ k3s_version }}"
+
+- name: Delete temp files
+  file:
+    path: /tmp/k3s-install.sh
+    state: absent

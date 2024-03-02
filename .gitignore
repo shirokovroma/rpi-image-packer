@@ -1,0 +1,10 @@
+# mac file
+.DS_Store
+
+# .packer_cache dir
+.packer_cache
+.packer_plugins
+
+.fuse_hidden* 
+*.img
+

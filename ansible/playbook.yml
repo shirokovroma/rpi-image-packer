@@ -1,0 +1,50 @@
+---
+- name: Create a new file
+  hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Create a new file
+      file:
+        path: /hui2
+        state: touch
+
+- name: k3s setup
+  hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - k3s
+
+# check that k3s installed
+- name: check that k3s installed
+  hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+    - name: check that k3s installed
+      shell: >-
+        k3s --version
+      register: k3s_version
+    - debug:
+        var: k3s_version.stdout
+
+- name: tailscale setup
+  hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - tailscale
+
+# check that tailscale installed
+- name: check that tailscale installed
+  hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+    - name: check that tailscale installed
+      shell: >-
+        tailscale --version
+      register: tailscale_version
+    - debug:
+        var: tailscale_version.stdout

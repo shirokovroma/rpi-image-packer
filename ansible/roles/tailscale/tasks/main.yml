@@ -1,0 +1,14 @@
+---
+- name: Download K3s install script
+  get_url:
+    url: https://tailscale.com/install.sh
+    dest: /tmp/tail-install.sh
+    mode: "0700"
+
+- name: Install k3s
+  shell: /tmp/tail-install.sh
+
+- name: Delete temp files
+  file:
+    path: /tmp/tail-install.sh
+    state: absent
